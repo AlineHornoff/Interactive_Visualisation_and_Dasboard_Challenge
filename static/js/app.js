@@ -1,5 +1,43 @@
 // Belly Button Biodiversity - Plotly.js
 
+// Build function with inital dashboard
+function initDashboard() {
+    var dropdown = d3.select("#selDataset")
+    d3.json("samples.json").then(data => {
+        var patientIDs = data.names;
+        patientIDs.forEach(patientID => {
+            dropdown.append("option").text(patientID).property("value", patientID)
+        })
+        buildCharts(patientIDs[0]);
+        populateDemoInfo(patientIDs[0]);
+    });
+};
+
+
+// Build function for option changed
+function optionChanged(patientID) {
+    console.log(patientID);
+    buildCharts(patientID);
+    populateDemoInfo(patientID);
+}
+
+// Build function to populate demographic info
+function populateDemoInfo(patientID) {
+
+    var demographicInfoBox = d3.select("#sample-metadata");
+
+    d3.json("samples.json").then(data => {
+        var metadata = data.metadata
+        var filteredMetadata = metadata.filter(bacteriaInfo => bacteriaInfo.id == patientID)[0]
+
+        console.log(filteredMetadata)
+        Object.entries(filteredMetadata).forEach(([key, value]) => {
+            demographicInfoBox.append("p").text(`${key}: ${value}`)
+        })
+
+    })
+}
+
 // Build function to build charts
 function buildCharts(patientID) {
 
@@ -120,44 +158,6 @@ function buildCharts(patientID) {
     }))
 
 
-};
-
-
-// Build function to populate demographic info
-function populateDemoInfo(patientID) {
-
-    var demographicInfoBox = d3.select("#sample-metadata");
-
-    d3.json("samples.json").then(data => {
-        var metadata = data.metadata
-        var filteredMetadata = metadata.filter(bacteriaInfo => bacteriaInfo.id == patientID)[0]
-
-        console.log(filteredMetadata)
-        Object.entries(filteredMetadata).forEach(([key, value]) => {
-            demographicInfoBox.append("p").text(`${key}: ${value}`)
-        })
-
-    })
-}
-
-// Build function for option changed
-function optionChanged(patientID) {
-    console.log(patientID);
-    buildCharts(patientID);
-    populateDemoInfo(patientID);
-}
-
-// Build function with inital dashboard
-function initDashboard() {
-    var dropdown = d3.select("#selDataset")
-    d3.json("samples.json").then(data => {
-        var patientIDs = data.names;
-        patientIDs.forEach(patientID => {
-            dropdown.append("option").text(patientID).property("value", patientID)
-        })
-        buildCharts(patientIDs[0]);
-        populateDemoInfo(patientIDs[0]);
-    });
 };
 
 initDashboard();
