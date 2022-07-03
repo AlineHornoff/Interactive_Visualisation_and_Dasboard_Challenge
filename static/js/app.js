@@ -137,7 +137,6 @@ function populateDemoInfo(patientID) {
             demographicInfoBox.append("p").text(`${key}: ${value}`)
         })
 
-
     })
 }
 

@@ -13,10 +13,11 @@ The dataset reveals that a small handful of microbial species (also called opera
 
 ## Repository Contents
 
-* static - 
+* static - app.js, css styling, image header
 * index.html
 * samples.json - contains raw data
 
 ## Output
+https://alinehornoff.github.io/Interactive_Visualisation_and_Dasboard_Challenge/
 
 
